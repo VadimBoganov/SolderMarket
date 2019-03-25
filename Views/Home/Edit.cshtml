@@ -1,0 +1,25 @@
+@model solder.Models.Solder
+@{
+    ViewBag.Title = "Edit";
+}
+<form asp-action="edit" asp-controller="home" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label">Name</label>
+        <input type="text" asp-for="Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Type" class="control-label">Type</label>
+        <select class="form-control" asp-for="Type" asp-items="Html.GetEnumSelectList<SolderType>()"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Price" class="control-label">Price</label>
+        <input type="number" asp-for="Price" class="form-control" />
+    </div>
+    <div class="form-group">
+        <p>Upload one or more files using this form:</p>
+        <input type="file" name="Avatar" multiple class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Send" class="btn btn-default" />
+    </div>
+</form>
