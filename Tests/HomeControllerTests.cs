@@ -43,18 +43,31 @@ namespace solder.Tests
         }
 
         [Fact]
+        public async Task Create()
+        {
+            var mock = new Mock<IRepository>();
+            var controller = new HomeController(mock.Object);
+            controller.ModelState.AddModelError("Name", "Required");
+            SolderViewModel sol = new SolderViewModel();
+
+            var res = await controller.Create(sol);
+            
+            var viewRes = Assert.IsType<ViewResult>(res);
+            Assert.Equal(sol, viewRes?.Model);
+        }
+
+        [Fact]
         public async Task CreateCheckRedirect()
         {
             var mock = new Mock<IRepository>();
             var controller = new HomeController(mock.Object);
-            var svm = new SolderViewModel()
+            var prod = new SolderViewModel()
             {
                 Name = "dsd",
                 Type = SolderType.Babbit,
                 Price = 213
             };
-
-            var res = await controller.Create(svm);
+            var res = await controller.Create(prod);
 
             var redirectResult = Assert.IsType<RedirectToActionResult>(res);
             Assert.Null(redirectResult.ControllerName);

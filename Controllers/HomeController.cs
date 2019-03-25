@@ -27,7 +27,7 @@ namespace solder.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(SolderViewModel svm)
         {
-            if(svm != null)
+            if(ModelState.IsValid)
             {
                 Solder solder = new Solder() { Name = svm.Name, Type = svm.Type, Price = svm.Price };
                 if(svm.Avatar != null)
@@ -44,7 +44,7 @@ namespace solder.Controllers
                 
                 return RedirectToAction("Index");
             }
-            return BadRequest();
+            return View(svm);
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -79,7 +79,7 @@ namespace solder.Controllers
             if(!id.HasValue)
                 return NotFound();
 
-            if(svm == null)
+            if(!ModelState.IsValid)
                 return BadRequest();
 
             Solder solder = await _repository.GetAsync(id.Value);
