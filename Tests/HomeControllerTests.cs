@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
+using solder.ViewModels;
 
 namespace solder.Tests
 {
@@ -40,6 +41,26 @@ namespace solder.Tests
             Assert.Equal("123", model.Name);
             Assert.Equal(123, model.Price);
         }
+
+        [Fact]
+        public async Task CreateCheckRedirect()
+        {
+            var mock = new Mock<IRepository>();
+            var controller = new HomeController(mock.Object);
+            var svm = new SolderViewModel()
+            {
+                Name = "dsd",
+                Type = SolderType.Babbit,
+                Price = 213
+            };
+
+            var res = await controller.Create(svm);
+
+            var redirectResult = Assert.IsType<RedirectToActionResult>(res);
+            Assert.Null(redirectResult.ControllerName);
+            Assert.Equal("Index", redirectResult.ActionName);
+        }
+
 
         private List<Solder> GetTestSolders()
         {

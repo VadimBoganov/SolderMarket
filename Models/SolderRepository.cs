@@ -24,26 +24,17 @@ namespace solder.Models
 
         public Solder Get(int? id)
         {
-            if(id == null)
-                throw new ArgumentException();
-
             return _db.Solders.FirstOrDefault(s => s.Id == id);
         }
 
         public async Task<Solder> GetAsync(int? id)
         {
-            if(id == null)
-                throw new ArgumentException();
-
             Solder solder = await _db.Solders.FirstOrDefaultAsync(s => s.Id == id);    
             return solder;
         }
         
         public void Add(Solder solder)    
         {
-            if(solder == null)
-                throw new ArgumentException();
-
             _db.Solders.Add(solder);
             _db.SaveChanges();
         }
@@ -55,9 +46,6 @@ namespace solder.Models
 
         public void Update(Solder solder)
         {
-            if(solder == null)
-                throw new ArgumentException();
-
             _db.Solders.Update(solder);
             _db.SaveChanges();
         }

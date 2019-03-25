@@ -27,46 +27,61 @@ namespace solder.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(SolderViewModel svm)
         {
-            Solder solder = new Solder() { Name = svm.Name, Type = svm.Type, Price = svm.Price };
-            if(svm.Avatar != null)
+            if(svm != null)
             {
-                byte[] imageData = null;
-
-                using(var binaryReader = new BinaryReader(svm.Avatar.OpenReadStream()))
+                Solder solder = new Solder() { Name = svm.Name, Type = svm.Type, Price = svm.Price };
+                if(svm.Avatar != null)
                 {
-                    imageData = binaryReader.ReadBytes((int)svm.Avatar.Length);
+                    byte[] imageData = null;
+
+                    using(var binaryReader = new BinaryReader(svm.Avatar.OpenReadStream()))
+                    {
+                        imageData = binaryReader.ReadBytes((int)svm.Avatar.Length);
+                    }
+                    solder.Picture = imageData;
                 }
-                solder.Picture = imageData;
+                await _repository.AddAsync(solder);
+                
+                return RedirectToAction("Index");
             }
-            await _repository.AddAsync(solder);
-            
-            return RedirectToAction("Index");
+            return BadRequest();
         }
 
         public async Task<IActionResult> Details(int? id)
         {
+            if(!id.HasValue)
+                return NotFound();
+
             Solder solder = await _repository.GetAsync(id.Value);
 
-            if(solder != null)
-                return View(solder);
+            if(solder == null)
+                return BadRequest();
 
-            return NotFound();
+            return View(solder);
         }
 
-        // подумать по поводу згрузки картинки 
         public async Task<IActionResult> Edit(int? id)
         {
+            if(!id.HasValue)
+                return NotFound();
+
             Solder solder = await _repository.GetAsync(id.Value);
 
             if(solder != null)
-                return View(solder);
+                return BadRequest();
 
-            return NotFound();
+            return View(solder);
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(SolderViewModel svm, int? id)
         {
+            if(!id.HasValue)
+                return NotFound();
+
+            if(svm == null)
+                return BadRequest();
+
             Solder solder = await _repository.GetAsync(id.Value);
             solder.Name = svm.Name;
             solder.Price = svm.Price;
@@ -104,13 +119,16 @@ namespace solder.Controllers
         // подумать о модальном окне при выборе картинки(код должен быть один как и в Details)
         public async Task<IActionResult> Delete(int? id)
         {
+            if(!id.HasValue)
+                return NotFound();
+
             Solder solder = await _repository.GetAsync(id);
-            if(solder != null)
-            {
-                await _repository.DeleteAsync(solder);
-                return RedirectToAction("Index");
-            }
-            return NotFound();
+            
+            if(solder == null)
+                return BadRequest();
+
+            await _repository.DeleteAsync(solder);
+            return RedirectToAction("Index");
         }
     }
 }
