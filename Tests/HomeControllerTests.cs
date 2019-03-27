@@ -43,7 +43,7 @@ namespace solder.Tests
         }
 
         [Fact]
-        public async Task Create()
+        public async Task CreateModelInvalidState()
         {
             var mock = new Mock<IRepository>();
             var controller = new HomeController(mock.Object);
@@ -74,7 +74,31 @@ namespace solder.Tests
             Assert.Equal("Index", redirectResult.ActionName);
         }
 
+        [Fact]
+        public async Task DeleteNotFound()
+        {
+            var mock = new Mock<IRepository>();
+            var controller = new HomeController(mock.Object);
 
+            var result = await controller.Delete(null);
+
+            Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
+        public async Task DeleteRedirection()
+        {
+            int testId = 1;
+            var mock = new Mock<IRepository>();
+            mock.Setup(r => r.GetAsync(testId)).ReturnsAsync(GetTestSolders().FirstOrDefault(s => s.Id == testId));
+            var controller = new HomeController(mock.Object);
+
+            var result = await controller.Delete(testId);
+
+            var redirectResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Null(redirectResult.ControllerName);
+            Assert.Equal("Index", redirectResult.ActionName);
+        }
         private List<Solder> GetTestSolders()
         {
             var solders = new List<Solder>
