@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Edit";
 }
-<form asp-action="edit" asp-controller="home" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data">
+<form asp-action="edit" asp-controller="admin" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label asp-for="Name" class="control-label">Name</label>
         <input type="text" asp-for="Name" class="form-control" />

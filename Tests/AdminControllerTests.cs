@@ -10,14 +10,14 @@ using solder.ViewModels;
 
 namespace solder.Tests
 {
-    public class HomeControllerTests
+    public class AdminControllerTests
     {
         [Fact]
         public void Index()
         {
             var mock = new Mock<IRepository>();
             mock.Setup(repo => repo.GetAll()).Returns(GetTestSolders());
-            var controller = new HomeController(mock.Object);
+            var controller = new AdminController(mock.Object);
 
             var result = controller.Index();
 
@@ -32,7 +32,7 @@ namespace solder.Tests
             int testId = 1;
             var mock = new Mock<IRepository>();
             mock.Setup(r => r.GetAsync(testId)).ReturnsAsync(GetTestSolders().FirstOrDefault(s => s.Id == testId));
-            var controller = new HomeController(mock.Object);
+            var controller = new AdminController(mock.Object);
 
             var res = await controller.Details(testId);
 
@@ -46,7 +46,7 @@ namespace solder.Tests
         public async Task CreateModelInvalidState()
         {
             var mock = new Mock<IRepository>();
-            var controller = new HomeController(mock.Object);
+            var controller = new AdminController(mock.Object);
             controller.ModelState.AddModelError("Name", "Required");
             SolderViewModel sol = new SolderViewModel();
 
@@ -60,7 +60,7 @@ namespace solder.Tests
         public async Task CreateCheckRedirect()
         {
             var mock = new Mock<IRepository>();
-            var controller = new HomeController(mock.Object);
+            var controller = new AdminController(mock.Object);
             var prod = new SolderViewModel()
             {
                 Name = "dsd",
@@ -78,7 +78,7 @@ namespace solder.Tests
         public async Task DeleteNotFound()
         {
             var mock = new Mock<IRepository>();
-            var controller = new HomeController(mock.Object);
+            var controller = new AdminController(mock.Object);
 
             var result = await controller.Delete(null);
 
@@ -91,7 +91,7 @@ namespace solder.Tests
             int testId = 1;
             var mock = new Mock<IRepository>();
             mock.Setup(r => r.GetAsync(testId)).ReturnsAsync(GetTestSolders().FirstOrDefault(s => s.Id == testId));
-            var controller = new HomeController(mock.Object);
+            var controller = new AdminController(mock.Object);
 
             var result = await controller.Delete(testId);
 

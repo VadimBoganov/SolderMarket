@@ -8,11 +8,11 @@ using solder.ViewModels;
 
 namespace solder.Controllers
 {
-    public class HomeController : Controller
+    public class AdminController : Controller
     {
         private IRepository _repository;
 
-        public HomeController(IRepository r)
+        public AdminController(IRepository r)
         {
             _repository = r;
         }
@@ -67,7 +67,7 @@ namespace solder.Controllers
 
             Solder solder = await _repository.GetAsync(id.Value);
 
-            if(solder != null)
+            if(solder == null)
                 return BadRequest();
 
             return View(solder);
