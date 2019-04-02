@@ -1,5 +1,8 @@
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using solder.Models;
+using solder.ViewModels;
 
 namespace solder.Controllers
 {
@@ -11,7 +14,19 @@ namespace solder.Controllers
             _repository = repo;
         }
 
-        public IActionResult Index() => View();
+        public IActionResult Index(string name)
+        {
+            if(string.IsNullOrEmpty(name))
+                name = string.Empty;
+
+            SolderListViewModel slvm = new SolderListViewModel
+            {
+                Solders = _repository.GetAll().Where(s => s.Name.Contains(name)).ToList(),
+                Name = name
+            };
+
+            return View(slvm);
+        }
         
     }    
 }

@@ -1,3 +1,5 @@
+@model solder.ViewModels.SolderListViewModel
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -11,6 +13,24 @@
         <link rel="stylesheet" href="~/css/style.css" />
     </head>
     <body>
+        <div id="top" class="container-fluid">
+            <div class="row">
+                <div class="col-lg-1 col-lg-offset-2 text-left-padding">привет</div>
+                <div class="col-lg-1 col-lg-offset-1">привет</div>
+                <div class="col-lg-2 col-lg-offset-3">+7(900)606-02-08 (с 09:00 до 18:00)</div>
+            </div>
+        </div>
+        <div id="header" class="container-fluid">
+            <div class="row">
+                <div class="col-lg-1 col-lg-offset-2 text-left-padding">img logo</div>
+                <form method="get">
+                    <div class="form-inline form-group">
+                        @Html.TextBox("name", Model.Name, htmlAttributes: new { @class = "form-control" })
+                    </div>
+                </form>
+                <div class="col-lg-1 col-lg-offset-4">кнопка корзины</div>
+            </div>
+        </div>
         @RenderBody()
         
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"

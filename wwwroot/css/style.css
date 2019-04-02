@@ -1,7 +1,29 @@
 body{
     background-color: #e5e5e5;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
 #top{
+    position: relative;
     background-color: antiquewhite;
+    height: 40px;
+    line-height: 3;
+    font-size: 12px;
+}
+
+#header{
+    position: relative;
+    background-color: burlywood;
+    height: 60px;
+    line-height: 4;
+}
+
+#panel{
+    position: relative;
+    background-color: #ffffff;
+    height: 100px;
+}
+
+.text-left-padding{
+    padding-left: 32px;
 }
