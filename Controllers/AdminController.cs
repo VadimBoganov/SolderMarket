@@ -17,7 +17,7 @@ namespace solder.Controllers
             _repository = r;
         }
 
-        public IActionResult Index() => View(_repository.GetAll());
+        public IActionResult Index() => View(_repository.GetAll<Product>());
 
         public IActionResult Create() => View();
         
@@ -26,7 +26,7 @@ namespace solder.Controllers
         {
             if(ModelState.IsValid)
             {
-                Solder solder = new Solder() { Name = svm.Name, Type = svm.Type, Price = svm.Price };
+                Solder solder = new Solder() { Name = svm.Name, SolderType = svm.Type, Price = svm.Price, Product = svm.Product };
                 if(svm.Avatar != null)
                 {
                     byte[] imageData = null;
@@ -37,7 +37,7 @@ namespace solder.Controllers
                     }
                     solder.Picture = imageData;
                 }
-                await _repository.AddAsync(solder);
+                await _repository.AddAsync<Solder>(solder);
                 
                 return RedirectToAction("Index");
             }
@@ -49,7 +49,7 @@ namespace solder.Controllers
             if(!id.HasValue)
                 return NotFound();
 
-            Solder solder = await _repository.GetAsync(id.Value);
+            Solder solder = await _repository.GetAsync<Solder>(id.Value);
 
             if(solder == null)
                 return BadRequest();
@@ -62,7 +62,7 @@ namespace solder.Controllers
             if(!id.HasValue)
                 return NotFound();
 
-            Solder solder = await _repository.GetAsync(id.Value);
+            Solder solder = await _repository.GetAsync<Solder>(id.Value);
 
             if(solder == null)
                 return BadRequest();
@@ -79,10 +79,11 @@ namespace solder.Controllers
             if(!ModelState.IsValid)
                 return BadRequest();
 
-            Solder solder = await _repository.GetAsync(id.Value);
+            Solder solder = await _repository.GetAsync<Solder>(id.Value);
             solder.Name = svm.Name;
             solder.Price = svm.Price;
-            solder.Type = svm.Type;
+            solder.SolderType = svm.Type;
+            solder.Product = svm.Product;
             
             if(svm.Avatar != null)
             {
@@ -95,7 +96,7 @@ namespace solder.Controllers
                 solder.Picture = imageData;
             }
 
-            await _repository.UpdateAsync(solder);
+            await _repository.UpdateAsync<Solder>(solder);
 
             return RedirectToAction("Index");
         }
@@ -106,7 +107,7 @@ namespace solder.Controllers
         {
             if(id != null)
             {
-                Solder solder = await _repository.GetAsync(id);
+                Solder solder = await _repository.GetAsync<Solder>(id);
                 if(solder != null)
                     return View(solder);
             }
@@ -119,12 +120,12 @@ namespace solder.Controllers
             if(!id.HasValue)
                 return NotFound();
 
-            Solder solder = await _repository.GetAsync(id);
+            Solder solder = await _repository.GetAsync<Solder>(id);
             
             if(solder == null)
                 return BadRequest();
 
-            await _repository.DeleteAsync(solder);
+            await _repository.DeleteAsync<Solder>(solder);
             return RedirectToAction("Index");
         }
     }

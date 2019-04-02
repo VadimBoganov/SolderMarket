@@ -21,7 +21,7 @@ namespace solder.Controllers
 
             SolderListViewModel slvm = new SolderListViewModel
             {
-                Solders = _repository.GetAll().Where(s => s.Name.Contains(name)).ToList(),
+                Solders = _repository.GetAll<Solder>().Where(s => s.Name.Contains(name)).ToList(),
                 Name = name
             };
 

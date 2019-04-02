@@ -15,7 +15,7 @@ namespace solder.Tests
         public void Index()
         {
             var mock = new Mock<IRepository>();
-            mock.Setup(repo => repo.GetAll()).Returns(GetTestSolders());
+            mock.Setup(repo => repo.GetAll<Solder>()).Returns(GetTestSolders());
             var controller = new HomeController(mock.Object);
 
             var result = controller.Index("1");
@@ -29,8 +29,8 @@ namespace solder.Tests
         {
             var solders = new List<Solder>
             {
-                new Solder {Id = 1, Name = "123", Type = SolderType.Babbit, Price = 123},
-                new Solder {Id = 2, Name = "32", Type = SolderType.SpecialAndFusible, Price = 122}
+                new Solder {Id = 1, Name = "123", SolderType = new SolderType{Id = 1, Name = "Babbit"} , Price = 123},
+                new Solder {Id = 2, Name = "32", SolderType = new SolderType{Id = 1, Name = "Babbit"}, Price = 122}
             };
             return solders;
         }
