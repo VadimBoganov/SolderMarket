@@ -15,20 +15,27 @@
     <body>
         <div id="top" class="container-fluid">
             <div class="row">
-                <div class="col-lg-1 col-lg-offset-2 text-left-padding">привет</div>
+                <div class="col-lg-1 col-lg-offset-2">привет</div>
                 <div class="col-lg-1 col-lg-offset-1">привет</div>
                 <div class="col-lg-2 col-lg-offset-3">+7(900)606-02-08 (с 09:00 до 18:00)</div>
             </div>
         </div>
         <div id="header" class="container-fluid">
             <div class="row">
-                <div class="col-lg-1 col-lg-offset-2 text-left-padding">img logo</div>
-                <form method="get">
-                    <div class="form-inline form-group">
+                <div class="col-lg-1 col-lg-offset-2">img logo</div>
+                <div class="col-lg-2">
+                    <form class="form-inline md-form mr-auto mb-4">
                         @Html.TextBox("name", Model.Name, htmlAttributes: new { @class = "form-control" })
-                    </div>
-                </form>
-                <div class="col-lg-1 col-lg-offset-4">кнопка корзины</div>
+                        <button class="btn aqua-gradient btn-rounded btn-sm my-0" type="submit">Search</button>
+                    </form>
+                </div>
+                <div class="col-lg-1 col-lg-offset-3">
+                    <form method="post">
+                        <button asp-controller="Home" asp-action="Index" class="btn btn-lg cart-button">
+                            <i class="glyphicon glyphicon-shopping-cart"></i><span> Корзина</span>
+                        </button>
+                    </form>    
+                </div>
             </div>
         </div>
         @RenderBody()

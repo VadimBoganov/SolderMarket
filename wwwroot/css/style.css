@@ -6,7 +6,7 @@ body{
 #top{
     position: relative;
     background-color: antiquewhite;
-    height: 40px;
+    height: auto;
     line-height: 3;
     font-size: 12px;
 }
@@ -14,16 +14,22 @@ body{
 #header{
     position: relative;
     background-color: burlywood;
-    height: 60px;
+    height: auto;
     line-height: 4;
 }
 
 #panel{
     position: relative;
     background-color: #ffffff;
-    height: 100px;
+    height: auto;
 }
 
 .text-left-padding{
     padding-left: 32px;
+}
+
+.cart-button
+{
+    background-color: antiquewhite;
+    font-size: 14px;
 }
