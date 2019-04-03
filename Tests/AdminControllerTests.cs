@@ -50,7 +50,7 @@ namespace solder.Tests
             controller.ModelState.AddModelError("Name", "Required");
             SolderViewModel sol = new SolderViewModel();
 
-            var res = await controller.Create(sol);
+            var res = await controller.CreateSolder(sol);
             
             var viewRes = Assert.IsType<ViewResult>(res);
             Assert.Equal(sol, viewRes?.Model);
@@ -67,7 +67,7 @@ namespace solder.Tests
                 Type = new SolderType{ Id = 1, Name = "Babbit"},
                 Price = 213
             };
-            var res = await controller.Create(prod);
+            var res = await controller.CreateSolder(prod);
 
             var redirectResult = Assert.IsType<RedirectToActionResult>(res);
             Assert.Null(redirectResult.ControllerName);

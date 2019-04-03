@@ -29,14 +29,14 @@ namespace solder.Controllers
             return View(csvm);
         } 
 
-        public IActionResult Create()
+        public IActionResult CreateSolder()
         {
             ViewBag.SolderType = new SelectList(_repository.GetAll<SolderType>(), "Id", "Name");
             return View();
         }
         
         [HttpPost]
-        public async Task<IActionResult> Create(SolderViewModel svm)
+        public async Task<IActionResult> CreateSolder(SolderViewModel svm)
         {
             if(ModelState.IsValid)
             {
@@ -56,6 +56,23 @@ namespace solder.Controllers
                 return RedirectToAction("Index");
             }
             return View(svm);
+        }
+
+        public IActionResult CreateSolderType() => View();
+
+        [HttpPost]
+        public async Task<IActionResult> CreateSolderType(SolderType sType)
+        {
+            if(ModelState.IsValid)
+            {
+                SolderType type = new SolderType { Id = sType.Id, Name = sType.Name};
+                if(type == null)
+                    return BadRequest();
+
+                await _repository.AddAsync<SolderType>(type);
+                return RedirectToAction("Index");    
+            }
+            return View(sType);
         }
 
         public async Task<IActionResult> Details(int? id)

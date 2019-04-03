@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "All solders";
 }        
-<a asp-action="Create">Add solder</a>
+<a asp-action="CreateSolder">Add solder</a>
 <table class="table">
     @foreach (var item in Model.Solders)
     {
@@ -16,7 +16,7 @@
     }    
 </table>
 <hr/>
-<a asp-action="Create">Add SolderType</a>
+<a asp-action="CreateSolderType">Add SolderType</a>
 <table class="table">
     @foreach (var item in Model.SolderTypes)
     {
