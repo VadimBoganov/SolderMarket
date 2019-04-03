@@ -2,6 +2,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using solder.Models;
 using solder.ViewModels;
@@ -17,9 +18,22 @@ namespace solder.Controllers
             _repository = r;
         }
 
-        public IActionResult Index() => View(_repository.GetAll<Solder>());
+        public IActionResult Index()
+        {
+            CommonSolderViewModel csvm = new CommonSolderViewModel
+            {
+                Solders = _repository.GetAll<Solder>(),
+                SolderTypes = _repository.GetAll<SolderType>(),
+                Products = _repository.GetAll<Product>()
+            };
+            return View(csvm);
+        } 
 
-        public IActionResult Create() => View();
+        public IActionResult Create()
+        {
+            ViewBag.SolderType = new SelectList(_repository.GetAll<SolderType>(), "Id", "Name");
+            return View();
+        }
         
         [HttpPost]
         public async Task<IActionResult> Create(SolderViewModel svm)
