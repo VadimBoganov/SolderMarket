@@ -17,7 +17,7 @@ namespace solder.Controllers
             _repository = r;
         }
 
-        public IActionResult Index() => View(_repository.GetAll<Product>());
+        public IActionResult Index() => View(_repository.GetAll<Solder>());
 
         public IActionResult Create() => View();
         

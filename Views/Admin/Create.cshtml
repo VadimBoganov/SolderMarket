@@ -9,11 +9,11 @@
     </div>
     <div class="form-group">
         <label asp-for="SolderType" class="control-label">SolderType</label>
-        <select class="form-control" asp-for="SolderType" asp-items="Html.GetEnumSelectList<SolderType>()"></select>
+        <select class="form-control" asp-for="SolderType" asp-items="ViewBag.SolderType"></select>
     </div>
      <div class="form-group">
         <label asp-for="Product" class="control-label">Product</label>
-        <select class="form-control" asp-for="Product" asp-items="Html.GetEnumSelectList<Product>()"></select>
+        <select class="form-control" asp-for="Product" asp-items="ViewBag.Product"></select>
     </div>
     <div class="form-group">
         <label asp-for="Price" class="control-label">Price</label>
