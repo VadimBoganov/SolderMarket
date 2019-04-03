@@ -75,7 +75,7 @@ namespace solder.Controllers
             return View(sType);
         }
 
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> DetailsSolder(int? id)
         {
             if(!id.HasValue)
                 return NotFound();
@@ -88,7 +88,20 @@ namespace solder.Controllers
             return View(solder);
         }
 
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> DetailsSolderType(int? id)
+        {
+            if(!id.HasValue)
+               return NotFound();
+            
+            SolderType type = await _repository.GetAsync<SolderType>(id.Value);
+
+            if(type == null)
+                return BadRequest();
+
+            return View(type);
+        }
+
+        public async Task<IActionResult> EditSolder(int? id)
         {
             if(!id.HasValue)
                 return NotFound();
@@ -102,7 +115,7 @@ namespace solder.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(SolderViewModel svm, int? id)
+        public async Task<IActionResult> EditSolder(SolderViewModel svm, int? id)
         {
             if(!id.HasValue)
                 return NotFound();
@@ -132,9 +145,39 @@ namespace solder.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> EditSolderType(int? id)
+        {
+            if(!id.HasValue)
+                return NotFound();
+
+            SolderType type = await _repository.GetAsync<SolderType>(id.Value);
+
+            if(type == null)
+                return BadRequest();
+
+            return View(type);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditSolderType(SolderType sType, int? id)
+        {
+            if(!id.HasValue)
+                return NotFound();
+
+            if(!ModelState.IsValid)
+                return BadRequest();
+
+            SolderType type = await _repository.GetAsync<SolderType>(id.Value);
+            type.Name = sType.Name;
+            
+            await _repository.UpdateAsync<SolderType>(type);
+
+            return RedirectToAction("Index");
+        }
+
         [HttpGet]
-        [ActionName("Delete")]
-        public async Task<IActionResult> ConfimDelete(int? id)
+        [ActionName("DeleteSolder")]
+        public async Task<IActionResult> ConfimDeleteSolder(int? id)
         {
             if(id != null)
             {
@@ -146,7 +189,7 @@ namespace solder.Controllers
         }
 
         // подумать о модальном окне при выборе картинки(код должен быть один как и в Details)
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> DeleteSolder(int? id)
         {
             if(!id.HasValue)
                 return NotFound();
@@ -158,6 +201,33 @@ namespace solder.Controllers
 
             await _repository.DeleteAsync<Solder>(solder);
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        [ActionName("DeleteSolderType")]
+        public async Task<IActionResult> ConfimDeleteSolderType(int? id)
+        {
+            if(id != null)
+            {
+                SolderType type = await _repository.GetAsync<SolderType>(id);
+                if(type != null)
+                    return View(type);
+            }
+            return NotFound();
+        }
+
+        public async Task<IActionResult> DeleteSolderType(int? id)
+        {
+            if(!id.HasValue)
+                return NotFound();
+
+            SolderType type = await _repository.GetAsync<SolderType>(id);
+            
+            if(type == null)
+                return BadRequest();
+
+            await _repository.DeleteAsync<SolderType>(type);
+            return RedirectToAction("Index");    
         }
     }
 }

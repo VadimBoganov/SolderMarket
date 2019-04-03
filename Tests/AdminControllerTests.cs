@@ -34,7 +34,7 @@ namespace solder.Tests
             mock.Setup(r => r.GetAsync<Solder>(testId)).ReturnsAsync(GetTestSolders().FirstOrDefault(s => s.Id == testId));
             var controller = new AdminController(mock.Object);
 
-            var res = await controller.Details(testId);
+            var res = await controller.DetailsSolder(testId);
 
             var viewResult = Assert.IsType<ViewResult>(res);
             var model = Assert.IsType<Solder>(viewResult.ViewData.Model);
@@ -80,7 +80,7 @@ namespace solder.Tests
             var mock = new Mock<IRepository>();
             var controller = new AdminController(mock.Object);
 
-            var result = await controller.Delete(null);
+            var result = await controller.DeleteSolder(null);
 
             Assert.IsType<NotFoundResult>(result);
         }
@@ -93,7 +93,7 @@ namespace solder.Tests
             mock.Setup(r => r.GetAsync<Solder>(testId)).ReturnsAsync(GetTestSolders().FirstOrDefault(s => s.Id == testId));
             var controller = new AdminController(mock.Object);
 
-            var result = await controller.Delete(testId);
+            var result = await controller.DeleteSolder(testId);
 
             var redirectResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.Null(redirectResult.ControllerName);
