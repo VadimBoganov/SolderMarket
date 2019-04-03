@@ -32,6 +32,7 @@ namespace solder.Controllers
         public IActionResult CreateSolder()
         {
             ViewBag.SolderType = new SelectList(_repository.GetAll<SolderType>(), "Id", "Name");
+            ViewBag.Product = new SelectList(_repository.GetAll<Product>(), "Id", "Name");
             return View();
         }
         
@@ -75,6 +76,23 @@ namespace solder.Controllers
             return View(sType);
         }
 
+        public IActionResult CreateProduct() => View();
+
+        [HttpPost]
+        public async Task<IActionResult> CreateProduct(Product prod)
+        {
+            if(ModelState.IsValid)
+            {
+                Product p = new Product { Id = prod.Id, Name = prod.Name};
+                if(p == null)
+                    return BadRequest();
+
+                await _repository.AddAsync<Product>(p);
+                return RedirectToAction("Index");    
+            }
+            return View(prod);
+        }
+
         public async Task<IActionResult> DetailsSolder(int? id)
         {
             if(!id.HasValue)
@@ -99,6 +117,19 @@ namespace solder.Controllers
                 return BadRequest();
 
             return View(type);
+        }
+
+        public async Task<IActionResult> DetailsProduct(int? id)
+        {
+            if(!id.HasValue)
+               return NotFound();
+            
+            Product p = await _repository.GetAsync<Product>(id.Value);
+
+            if(p == null)
+                return BadRequest();
+
+            return View(p);
         }
 
         public async Task<IActionResult> EditSolder(int? id)
@@ -175,6 +206,36 @@ namespace solder.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> EditProduct(int? id)
+        {
+            if(!id.HasValue)
+                return NotFound();
+
+            Product p = await _repository.GetAsync<Product>(id.Value);
+
+            if(p == null)
+                return BadRequest();
+
+            return View(p);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditProduct(Product prod, int? id)
+        {
+            if(!id.HasValue)
+                return NotFound();
+
+            if(!ModelState.IsValid)
+                return BadRequest();
+
+            Product p = await _repository.GetAsync<Product>(id.Value);
+            p.Name = prod.Name;
+            
+            await _repository.UpdateAsync<Product>(p);
+
+            return RedirectToAction("Index");
+        }
+
         [HttpGet]
         [ActionName("DeleteSolder")]
         public async Task<IActionResult> ConfimDeleteSolder(int? id)
@@ -227,6 +288,33 @@ namespace solder.Controllers
                 return BadRequest();
 
             await _repository.DeleteAsync<SolderType>(type);
+            return RedirectToAction("Index");    
+        }
+
+        [HttpGet]
+        [ActionName("DeleteProduct")]
+        public async Task<IActionResult> ConfimDeleteProduct(int? id)
+        {
+            if(id != null)
+            {
+                Product p = await _repository.GetAsync<Product>(id);
+                if(p != null)
+                    return View(p);
+            }
+            return NotFound();
+        }
+
+        public async Task<IActionResult> DeleteProduct(int? id)
+        {
+            if(!id.HasValue)
+                return NotFound();
+
+            Product p = await _repository.GetAsync<Product>(id);
+            
+            if(p == null)
+                return BadRequest();
+
+            await _repository.DeleteAsync<Product>(p);
             return RedirectToAction("Index");    
         }
     }
