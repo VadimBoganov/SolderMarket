@@ -41,7 +41,7 @@ namespace solder.Controllers
         {
             if(ModelState.IsValid)
             {
-                Solder solder = new Solder() { Name = svm.Name, SolderType = svm.Type, Price = svm.Price, Product = svm.Product };
+                Solder solder = new Solder() { Name = svm.Name, SolderType = svm.SolderType, Price = svm.Price, Product = svm.Product };
                 if(svm.Avatar != null)
                 {
                     byte[] imageData = null;
@@ -136,7 +136,7 @@ namespace solder.Controllers
         {
             ViewBag.SolderType = new SelectList(_repository.GetAll<SolderType>(), "Id", "Name");
             ViewBag.Product = new SelectList(_repository.GetAll<Product>(), "Id", "Name");
-            
+
             if(!id.HasValue)
                 return NotFound();
 
@@ -160,7 +160,7 @@ namespace solder.Controllers
             Solder solder = await _repository.GetAsync<Solder>(id.Value);
             solder.Name = svm.Name;
             solder.Price = svm.Price;
-            solder.SolderType = svm.Type;
+            solder.SolderType = svm.SolderType;
             solder.Product = svm.Product;
             
             if(svm.Avatar != null)

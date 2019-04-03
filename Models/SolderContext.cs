@@ -12,7 +12,7 @@ namespace solder.Models
         public SolderContext(DbContextOptions options) 
             :base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }            
     }
 }

@@ -64,7 +64,7 @@ namespace solder.Tests
             var prod = new SolderViewModel()
             {
                 Name = "dsd",
-                Type = new SolderType{ Id = 1, Name = "Babbit"},
+                SolderType = new SolderType{ Id = 1, Name = "Babbit"},
                 Price = 213
             };
             var res = await controller.CreateSolder(prod);
