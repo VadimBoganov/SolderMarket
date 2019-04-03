@@ -134,6 +134,9 @@ namespace solder.Controllers
 
         public async Task<IActionResult> EditSolder(int? id)
         {
+            ViewBag.SolderType = new SelectList(_repository.GetAll<SolderType>(), "Id", "Name");
+            ViewBag.Product = new SelectList(_repository.GetAll<Product>(), "Id", "Name");
+            
             if(!id.HasValue)
                 return NotFound();
 
