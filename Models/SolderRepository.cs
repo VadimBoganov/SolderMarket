@@ -42,7 +42,8 @@ namespace solder.Models
                 case "SolderType":
                     return _db.SolderTypes.FirstOrDefault(s => s.Id == id) as T;
                 case "Solder":
-                    return _db.Solders.FirstOrDefault(s => s.Id == id) as T;    
+                    var solder = _db.Solders.FirstOrDefault(s => s.Id == id) as T;
+                    return solder;    
                 default:
                     return _db.Products.FirstOrDefault(s => s.Id == id) as T;
 
@@ -58,7 +59,10 @@ namespace solder.Models
                 case "SolderType":
                     return await _db.SolderTypes.FirstOrDefaultAsync(s => s.Id == id) as T;
                 case "Solder":
-                    return await _db.Solders.FirstOrDefaultAsync(s => s.Id == id) as T;
+                    var solder = await _db.Solders.FirstOrDefaultAsync(s => s.Id == id) as Solder;
+                    solder.SolderType = await _db.SolderTypes.FirstOrDefaultAsync(st => st.Id == solder.SolderTypeId);
+                    solder.Product = await _db.Products.FirstOrDefaultAsync(p => p.Id == solder.ProductId);
+                    return solder as T; 
                 default:
                     return await _db.Products.FirstOrDefaultAsync(s => s.Id == id) as T;
 

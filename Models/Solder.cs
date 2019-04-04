@@ -10,7 +10,9 @@ namespace solder.Models
     {
         public int Id {get;set;}
         public string Name {get;set;}
+        public int SolderTypeId {get;set;}
         public SolderType SolderType {get;set;}
+        public int ProductId {get;set;}
         public Product Product {get;set;}
         public int Price {get;set;}
         public byte[] Picture {get;set;}
@@ -21,12 +23,5 @@ namespace solder.Models
         public int Id {get;set;}
         public string Name {get;set;}        
     }
-
-    // public enum SolderType
-    // {
-    //     LeadTin, //Оловянно-свинцовые
-    //     SpecialAndFusible, //Специальные и легкоплавкие
-    //     Babbit
-    // }
 
 }
