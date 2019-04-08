@@ -1,24 +1,16 @@
-@model solder.ViewModels.CommonSolderViewModel
+@using solder.Models
+@model solder.ViewModels.AdminIndexViewModel
+
+@addTagHelper "*, solder"
+
 @{
     ViewBag.Title = "All solders";
 }        
-<a asp-action="CreateSolder">Add solder</a>
+
+
 <table class="table">
-    @foreach (var item in Model.Solders)
-    {
-        <tr>
-            <td>@item.Name</td>
-            <td><a asp-action="DetailsSolder" asp-controller="Admin" asp-route-id="@item.Id">Подробнее</a> | 
-                <a asp-action="EditSolder" asp-controller="Admin" asp-route-id="@item.Id">Изменить</a> | 
-                <a asp-action="DeleteSolder" asp-controller="Admin" asp-route-id="@item.Id">Удалить</a>
-            </td>
-        </tr>
-    }    
-</table>
-<hr/>
-<a asp-action="CreateSolderType">Add SolderType</a>
-<table class="table">
-    @foreach (var item in Model.SolderTypes)
+    <h3>Типы припоев</h3>
+    @foreach (var item in Model.csvm.SolderTypes)
     {
         <tr>
             <td>@item.Name</td>
@@ -29,10 +21,11 @@
         </tr>
     }    
 </table>
-<hr/>
-<a asp-action="CreateProduct">Add Product</a>
+<a asp-action="CreateSolderType"><button class="btn btn-default">Добавить тип припоя</button></a>
+
 <table class="table">
-    @foreach (var item in Model.Products)
+    <h3>Продукты</h3>
+    @foreach (var item in Model.csvm.Products)
     {
         <tr>
             <td>@item.Name</td>
@@ -43,3 +36,49 @@
         </tr>
     }    
 </table>
+<a asp-action="CreateProduct"><button class="btn btn-default">Добавить продукт</button></a>
+
+<table class="table">
+    <h3>Припои</h3>
+    <tr>
+        <th>
+            <sort-solder action="Index"  up="@Model.svm.Up"
+                    current="@Model.svm.Current" property="@Model.svm.NameSort">
+                Имя
+            </sort-solder>
+        </th>
+        <th>
+            <sort-solder action="Index"  up="@Model.svm.Up"
+                    current="@Model.svm.Current" property="@Model.svm.SolderTypeSort">
+                Тип
+            </sort-solder>
+        </th>
+        <th>
+            <sort-solder action="Index"  up="@Model.svm.Up"
+                    current="@Model.svm.Current" property="@Model.svm.ProductSort">
+                Продукт
+            </sort-solder>
+        </th>
+        <th>
+            <sort-solder action="Index"  up="@Model.svm.Up"
+                    current="@Model.svm.Current" property="@Model.svm.PriceSort">
+                Цена
+            </sort-solder>
+        </th>    
+    </tr>
+    @foreach (var item in Model.csvm.Solders)
+    {
+        <tr>
+           
+            <td>@item.Name</td>
+            <td>@item.SolderType.Name</td>
+            <td>@item.Product.Name</td>
+            <td>@item.Price</td>
+            <td><a asp-action="DetailsSolder" asp-controller="Admin" asp-route-id="@item.Id">Подробнее</a> | 
+                <a asp-action="EditSolder" asp-controller="Admin" asp-route-id="@item.Id">Изменить</a> | 
+                <a asp-action="DeleteSolder" asp-controller="Admin" asp-route-id="@item.Id">Удалить</a>
+            </td>
+        </tr>
+    }    
+</table>
+<a asp-action="CreateSolder"><button class="btn btn-default">Добавить припой</button></a>

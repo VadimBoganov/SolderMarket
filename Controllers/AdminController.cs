@@ -18,15 +18,50 @@ namespace solder.Controllers
             _repository = r;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(SortState sortOrder = SortState.NameAsc)
         {
-            CommonSolderViewModel csvm = new CommonSolderViewModel
+            CommonSolderViewModel _csvm = new CommonSolderViewModel
             {
                 Solders = _repository.GetAll<Solder>(),
                 SolderTypes = _repository.GetAll<SolderType>(),
                 Products = _repository.GetAll<Product>()
             };
-            return View(csvm);
+
+            switch (sortOrder)
+            {
+                case SortState.NameDesc:
+                    _csvm.Solders = _csvm.Solders.OrderByDescending(s => s.Name);
+                    break;
+                case SortState.PriceAsc:
+                    _csvm.Solders = _csvm.Solders.OrderBy(s => s.Price);
+                    break;
+                case SortState.PriceDesc:
+                   _csvm.Solders = _csvm.Solders.OrderByDescending(s => s.Price);
+                    break;
+                case SortState.SolderTypeAsc:
+                    _csvm.Solders = _csvm.Solders.OrderBy(s => s.SolderType.Name);
+                    break;
+                case SortState.SolderTypeDesc:
+                    _csvm.Solders = _csvm.Solders.OrderByDescending(s => s.SolderType.Name);
+                    break;
+                case SortState.ProductAsc:
+                    _csvm.Solders = _csvm.Solders.OrderBy(s => s.Product.Name);
+                    break;
+                case SortState.ProductDesc:
+                    _csvm.Solders = _csvm.Solders.OrderByDescending(s => s.Product.Name);
+                    break;        
+                default:
+                    _csvm.Solders = _csvm.Solders.OrderBy(s => s.Name);
+                    break;
+            }
+
+            AdminIndexViewModel aivm = new AdminIndexViewModel
+            {
+                csvm = _csvm,
+                svm = new SortViewModel(sortOrder)
+            };
+
+            return View(aivm);
         } 
 
         public IActionResult CreateSolder()

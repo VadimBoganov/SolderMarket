@@ -24,4 +24,15 @@ namespace solder.Models
         public string Name {get;set;}        
     }
 
+    public enum SortState
+    {
+        NameAsc,
+        NameDesc,
+        SolderTypeAsc,
+        SolderTypeDesc,
+        ProductAsc,
+        ProductDesc,
+        PriceAsc,
+        PriceDesc
+    }
 }
