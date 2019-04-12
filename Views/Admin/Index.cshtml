@@ -25,13 +25,13 @@
 
 <table class="table">
     <h3>Продукты</h3>
-    @foreach (var item in Model.csvm.Products)
+    @foreach (var item in Model.csvm.SolderProducts)
     {
         <tr>
             <td>@item.Name</td>
-            <td><a asp-action="DetailsProduct" asp-controller="Admin" asp-route-id="@item.Id">Подробнее</a> | 
-                <a asp-action="EditProduct" asp-controller="Admin" asp-route-id="@item.Id">Изменить</a> | 
-                <a asp-action="DeleteProduct" asp-controller="Admin" asp-route-id="@item.Id">Удалить</a>
+            <td><a asp-action="DetailsSolderProduct" asp-controller="Admin" asp-route-id="@item.Id">Подробнее</a> | 
+                <a asp-action="EditSolderProduct" asp-controller="Admin" asp-route-id="@item.Id">Изменить</a> | 
+                <a asp-action="DeleteSolderProduct" asp-controller="Admin" asp-route-id="@item.Id">Удалить</a>
             </td>
         </tr>
     }    
@@ -55,7 +55,7 @@
         </th>
         <th>
             <sort-solder action="Index"  up="@Model.svm.Up"
-                    current="@Model.svm.Current" property="@Model.svm.ProductSort">
+                    current="@Model.svm.Current" property="@Model.svm.SolderProductSort">
                 Продукт
             </sort-solder>
         </th>
@@ -72,7 +72,7 @@
            
             <td>@item.Name</td>
             <td>@item.SolderType.Name</td>
-            <td>@item.Product.Name</td>
+            <td>@item.SolderProduct.Name</td>
             <td>@item.Price</td>
             <td><a asp-action="DetailsSolder" asp-controller="Admin" asp-route-id="@item.Id">Подробнее</a> | 
                 <a asp-action="EditSolder" asp-controller="Admin" asp-route-id="@item.Id">Изменить</a> | 

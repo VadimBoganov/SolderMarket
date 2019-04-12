@@ -7,6 +7,6 @@ namespace solder.ViewModels
     {
         public IEnumerable<Solder> Solders;
         public IEnumerable<SolderType> SolderTypes;
-        public IEnumerable<SolderProduct> Products;
+        public IEnumerable<SolderProduct> SolderProducts;
     }
 }

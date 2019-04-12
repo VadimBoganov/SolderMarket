@@ -1,6 +1,6 @@
 namespace solder.Models
 {
-    public class SolderEntity
+    public abstract class SolderEntity
     {
         public int Id {get; set;}
         public string Name {get;set;}
@@ -15,7 +15,7 @@ namespace solder.Models
         public int SolderTypeId {get;set;}
         public SolderType SolderType {get;set;}
         public int ProductId {get;set;}
-        public SolderProduct Product {get;set;}
+        public SolderProduct SolderProduct {get;set;}
         public int Price {get;set;}
         public byte[] Picture {get;set;}
     }
@@ -31,8 +31,8 @@ namespace solder.Models
         NameDesc,
         SolderTypeAsc,
         SolderTypeDesc,
-        ProductAsc,
-        ProductDesc,
+        SolderProductAsc,
+        SolderProductDesc,
         PriceAsc,
         PriceDesc
     }

@@ -24,7 +24,7 @@ namespace solder.Controllers
             {
                 Solders = _repository.GetAll<Solder>(),
                 SolderTypes = _repository.GetAll<SolderType>(),
-                Products = _repository.GetAll<SolderProduct>()
+                SolderProducts = _repository.GetAll<SolderProduct>()
             };
 
             switch (sortOrder)
@@ -44,11 +44,11 @@ namespace solder.Controllers
                 case SortState.SolderTypeDesc:
                     _csvm.Solders = _csvm.Solders.OrderByDescending(s => s.SolderType.Name);
                     break;
-                case SortState.ProductAsc:
-                    _csvm.Solders = _csvm.Solders.OrderBy(s => s.Product.Name);
+                case SortState.SolderProductAsc:
+                    _csvm.Solders = _csvm.Solders.OrderBy(s => s.SolderProduct.Name);
                     break;
-                case SortState.ProductDesc:
-                    _csvm.Solders = _csvm.Solders.OrderByDescending(s => s.Product.Name);
+                case SortState.SolderProductDesc:
+                    _csvm.Solders = _csvm.Solders.OrderByDescending(s => s.SolderProduct.Name);
                     break;        
                 default:
                     _csvm.Solders = _csvm.Solders.OrderBy(s => s.Name);
@@ -83,7 +83,7 @@ namespace solder.Controllers
                     SolderType = _repository.Get<SolderType>(svm.SolderTypeId), 
                     Price = svm.Price, 
                     ProductId = svm.ProductId,
-                    Product = _repository.Get<SolderProduct>(svm.ProductId) 
+                    SolderProduct = _repository.Get<SolderProduct>(svm.ProductId) 
                 };
 
                 if(svm.Avatar != null)
@@ -205,7 +205,7 @@ namespace solder.Controllers
             solder.Name = svm.Name;
             solder.Price = svm.Price;
             solder.SolderType = _repository.Get<SolderType>(svm.SolderTypeId);
-            solder.Product = _repository.Get<SolderProduct>(svm.ProductId);
+            solder.SolderProduct = _repository.Get<SolderProduct>(svm.ProductId);
             
             if(svm.Avatar != null)
             {

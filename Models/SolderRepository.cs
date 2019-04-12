@@ -21,6 +21,7 @@ namespace solder.Models
         {
             Type type = typeof(T);
             
+            
             switch(type.Name)
             {
                 case "SolderType":
@@ -28,7 +29,7 @@ namespace solder.Models
                 case "Solder":
                     return _db.Solders.ToList().OrderBy(s => s.Id) as IEnumerable<T>;    
                 default:
-                    return _db.Products.ToList().OrderBy(s => s.Id) as IEnumerable<T>;
+                    return _db.SolderProducts.ToList().OrderBy(s => s.Id) as IEnumerable<T>;
 
             }
         }
@@ -44,7 +45,7 @@ namespace solder.Models
                 case "Solder":
                     return _db.Solders.FirstOrDefault(s => s.Id == id) as T;
                 default:
-                    return _db.Products.FirstOrDefault(s => s.Id == id) as T;
+                    return _db.SolderProducts.FirstOrDefault(s => s.Id == id) as T;
 
             }
         }
@@ -60,10 +61,10 @@ namespace solder.Models
                 case "Solder":
                     var solder = await _db.Solders.FirstOrDefaultAsync(s => s.Id == id) as Solder;
                     solder.SolderType = await _db.SolderTypes.FirstOrDefaultAsync(st => st.Id == solder.SolderTypeId);
-                    solder.Product = await _db.Products.FirstOrDefaultAsync(p => p.Id == solder.ProductId);
+                    solder.SolderProduct = await _db.SolderProducts.FirstOrDefaultAsync(p => p.Id == solder.ProductId);
                     return solder as T; 
                 default:
-                    return await _db.Products.FirstOrDefaultAsync(s => s.Id == id) as T;
+                    return await _db.SolderProducts.FirstOrDefaultAsync(s => s.Id == id) as T;
 
             }
         }
@@ -83,7 +84,7 @@ namespace solder.Models
                     _db.SaveChanges();
                     break;
                 default:
-                     _db.Products.Add(item as SolderProduct);
+                     _db.SolderProducts.Add(item as SolderProduct);
                     _db.SaveChanges();
                     break;
             }
@@ -108,7 +109,7 @@ namespace solder.Models
                     _db.Solders.Update(item as Solder);
                     break;
                  default:
-                    _db.Products.Update(item as SolderProduct);
+                    _db.SolderProducts.Update(item as SolderProduct);
                     break;
             }
             _db.SaveChanges();
@@ -137,7 +138,7 @@ namespace solder.Models
                     _db.Solders.Remove(item as Solder);
                     break;
                 default:
-                    _db.Products.Remove(item as SolderProduct);
+                    _db.SolderProducts.Remove(item as SolderProduct);
                     break;    
             }
             _db.SaveChanges();

@@ -6,7 +6,7 @@ namespace solder.ViewModels
     {
         public SortState NameSort {get;set;}
         public SortState SolderTypeSort {get;set;}
-        public SortState ProductSort {get;set;}
+        public SortState SolderProductSort {get;set;}
         public SortState PriceSort {get;set;}
         public SortState Current {get;set;}
         public bool Up {get;set;}
@@ -15,12 +15,12 @@ namespace solder.ViewModels
         {
             NameSort = SortState.NameAsc;
             SolderTypeSort = SortState.SolderTypeAsc;
-            ProductSort = SortState.ProductAsc;
+            SolderProductSort = SortState.SolderProductAsc;
             PriceSort = SortState.PriceAsc;
             Up = true;
 
             if(sortSolders == SortState.NameDesc || sortSolders == SortState.PriceDesc 
-                || sortSolders == SortState.ProductDesc || sortSolders == SortState.SolderTypeDesc)
+                || sortSolders == SortState.SolderProductDesc || sortSolders == SortState.SolderTypeDesc)
             {
                 Up = false;
             }
@@ -42,11 +42,11 @@ namespace solder.ViewModels
                 case SortState.SolderTypeDesc:
                     Current = SolderTypeSort = SortState.SolderTypeAsc;
                     break;
-                case SortState.ProductDesc:
-                    Current = ProductSort = SortState.ProductAsc;
+                case SortState.SolderProductDesc:
+                    Current = SolderProductSort = SortState.SolderProductAsc;
                     break;
-                case SortState.ProductAsc:
-                    Current = ProductSort = SortState.ProductDesc;
+                case SortState.SolderProductAsc:
+                    Current = SolderProductSort = SortState.SolderProductDesc;
                     break;        
                 default:
                     Current = NameSort = SortState.NameDesc;
