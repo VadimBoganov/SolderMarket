@@ -10,10 +10,8 @@ namespace solder.Models
 
     }
 
-    public class Solder
+    public class Solder : SolderEntity
     {
-        public int Id {get;set;}
-        public string Name {get;set;}
         public int SolderTypeId {get;set;}
         public SolderType SolderType {get;set;}
         public int ProductId {get;set;}
@@ -24,7 +22,7 @@ namespace solder.Models
 
     public class SolderProduct : SolderEntity
     {
-        
+
     }
 
     public enum SortState
