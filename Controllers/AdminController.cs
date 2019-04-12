@@ -24,7 +24,7 @@ namespace solder.Controllers
             {
                 Solders = _repository.GetAll<Solder>(),
                 SolderTypes = _repository.GetAll<SolderType>(),
-                Products = _repository.GetAll<Product>()
+                Products = _repository.GetAll<SolderProduct>()
             };
 
             switch (sortOrder)
@@ -67,7 +67,7 @@ namespace solder.Controllers
         public IActionResult CreateSolder()
         {
             ViewBag.SolderType = new SelectList(_repository.GetAll<SolderType>(), "Id", "Name");
-            ViewBag.Product = new SelectList(_repository.GetAll<Product>(), "Id", "Name");
+            ViewBag.Product = new SelectList(_repository.GetAll<SolderProduct>(), "Id", "Name");
             return View();
         }
         
@@ -83,7 +83,7 @@ namespace solder.Controllers
                     SolderType = _repository.Get<SolderType>(svm.SolderTypeId), 
                     Price = svm.Price, 
                     ProductId = svm.ProductId,
-                    Product = _repository.Get<Product>(svm.ProductId) 
+                    Product = _repository.Get<SolderProduct>(svm.ProductId) 
                 };
 
                 if(svm.Avatar != null)
@@ -123,15 +123,15 @@ namespace solder.Controllers
         public IActionResult CreateProduct() => View();
 
         [HttpPost]
-        public async Task<IActionResult> CreateProduct(Product prod)
+        public async Task<IActionResult> CreateProduct(SolderProduct prod)
         {
             if(ModelState.IsValid)
             {
-                Product p = new Product { Id = prod.Id, Name = prod.Name};
+                SolderProduct p = new SolderProduct { Id = prod.Id, Name = prod.Name};
                 if(p == null)
                     return BadRequest();
 
-                await _repository.AddAsync<Product>(p);
+                await _repository.AddAsync<SolderProduct>(p);
                 return RedirectToAction("Index");    
             }
             return View(prod);
@@ -168,7 +168,7 @@ namespace solder.Controllers
             if(!id.HasValue)
                return NotFound();
             
-            Product p = await _repository.GetAsync<Product>(id.Value);
+            SolderProduct p = await _repository.GetAsync<SolderProduct>(id.Value);
 
             if(p == null)
                 return BadRequest();
@@ -179,7 +179,7 @@ namespace solder.Controllers
         public async Task<IActionResult> EditSolder(int? id)
         {
             ViewBag.SolderType = new SelectList(_repository.GetAll<SolderType>(), "Id", "Name");
-            ViewBag.Product = new SelectList(_repository.GetAll<Product>(), "Id", "Name");
+            ViewBag.Product = new SelectList(_repository.GetAll<SolderProduct>(), "Id", "Name");
 
             if(!id.HasValue)
                 return NotFound();
@@ -205,7 +205,7 @@ namespace solder.Controllers
             solder.Name = svm.Name;
             solder.Price = svm.Price;
             solder.SolderType = _repository.Get<SolderType>(svm.SolderTypeId);
-            solder.Product = _repository.Get<Product>(svm.ProductId);
+            solder.Product = _repository.Get<SolderProduct>(svm.ProductId);
             
             if(svm.Avatar != null)
             {
@@ -258,7 +258,7 @@ namespace solder.Controllers
             if(!id.HasValue)
                 return NotFound();
 
-            Product p = await _repository.GetAsync<Product>(id.Value);
+            SolderProduct p = await _repository.GetAsync<SolderProduct>(id.Value);
 
             if(p == null)
                 return BadRequest();
@@ -267,7 +267,7 @@ namespace solder.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditProduct(Product prod, int? id)
+        public async Task<IActionResult> EditProduct(SolderProduct prod, int? id)
         {
             if(!id.HasValue)
                 return NotFound();
@@ -275,10 +275,10 @@ namespace solder.Controllers
             if(!ModelState.IsValid)
                 return BadRequest();
 
-            Product p = await _repository.GetAsync<Product>(id.Value);
+            SolderProduct p = await _repository.GetAsync<SolderProduct>(id.Value);
             p.Name = prod.Name;
             
-            await _repository.UpdateAsync<Product>(p);
+            await _repository.UpdateAsync<SolderProduct>(p);
 
             return RedirectToAction("Index");
         }
@@ -344,7 +344,7 @@ namespace solder.Controllers
         {
             if(id != null)
             {
-                Product p = await _repository.GetAsync<Product>(id);
+                SolderProduct p = await _repository.GetAsync<SolderProduct>(id);
                 if(p != null)
                     return View(p);
             }
@@ -356,12 +356,12 @@ namespace solder.Controllers
             if(!id.HasValue)
                 return NotFound();
 
-            Product p = await _repository.GetAsync<Product>(id);
+            SolderProduct p = await _repository.GetAsync<SolderProduct>(id);
             
             if(p == null)
                 return BadRequest();
 
-            await _repository.DeleteAsync<Product>(p);
+            await _repository.DeleteAsync<SolderProduct>(p);
             return RedirectToAction("Index");    
         }
     }

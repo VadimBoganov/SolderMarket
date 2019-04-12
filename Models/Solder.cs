@@ -1,9 +1,13 @@
 namespace solder.Models
 {
-    public class SolderType
+    public class SolderEntity
     {
-        public int Id {get;set;}
+        public int Id {get; set;}
         public string Name {get;set;}
+    }
+    public class SolderType : SolderEntity
+    {
+
     }
 
     public class Solder
@@ -13,15 +17,14 @@ namespace solder.Models
         public int SolderTypeId {get;set;}
         public SolderType SolderType {get;set;}
         public int ProductId {get;set;}
-        public Product Product {get;set;}
+        public SolderProduct Product {get;set;}
         public int Price {get;set;}
         public byte[] Picture {get;set;}
     }
 
-    public class Product
+    public class SolderProduct : SolderEntity
     {
-        public int Id {get;set;}
-        public string Name {get;set;}        
+        
     }
 
     public enum SortState

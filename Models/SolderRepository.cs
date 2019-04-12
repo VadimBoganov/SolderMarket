@@ -42,8 +42,7 @@ namespace solder.Models
                 case "SolderType":
                     return _db.SolderTypes.FirstOrDefault(s => s.Id == id) as T;
                 case "Solder":
-                    var solder = _db.Solders.FirstOrDefault(s => s.Id == id) as T;
-                    return solder;    
+                    return _db.Solders.FirstOrDefault(s => s.Id == id) as T;
                 default:
                     return _db.Products.FirstOrDefault(s => s.Id == id) as T;
 
@@ -84,7 +83,7 @@ namespace solder.Models
                     _db.SaveChanges();
                     break;
                 default:
-                     _db.Products.Add(item as Product);
+                     _db.Products.Add(item as SolderProduct);
                     _db.SaveChanges();
                     break;
             }
@@ -104,17 +103,15 @@ namespace solder.Models
             {
                 case "SolderType":
                     _db.SolderTypes.Update(item as SolderType);
-                    _db.SaveChanges();
                     break;
                 case "Solder":
                     _db.Solders.Update(item as Solder);
-                    _db.SaveChanges();
                     break;
                  default:
-                    _db.Products.Update(item as Product);
-                    _db.SaveChanges();
+                    _db.Products.Update(item as SolderProduct);
                     break;
             }
+            _db.SaveChanges();
         }
 
         public async Task UpdateAsync<T>(T item)
@@ -135,17 +132,15 @@ namespace solder.Models
             {
                 case "SolderType":
                     _db.SolderTypes.Remove(item as SolderType);
-                    _db.SaveChanges();
                     break;
                 case "Solder": 
                     _db.Solders.Remove(item as Solder);
-                    _db.SaveChanges();
                     break;
                 default:
-                    _db.Products.Remove(item as Product);
-                    _db.SaveChanges();
+                    _db.Products.Remove(item as SolderProduct);
                     break;    
             }
+            _db.SaveChanges();
         }
     }
 }
