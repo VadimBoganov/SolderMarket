@@ -33,3 +33,10 @@ body{
     background-color: antiquewhite;
     font-size: 14px;
 }
+
+.place {
+    position: relative;
+    height: 180px;
+    width: 180px;
+}
+

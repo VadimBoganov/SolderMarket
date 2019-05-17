@@ -3,9 +3,8 @@ using solder.Models;
 
 namespace solder.ViewModels
 {
-    public class SolderListViewModel
+    public class SolderListViewModel : CommonSolderViewModel
     {
-        public IEnumerable<Solder> Solders {get;set;}
         public string Name {get;set;}
         
     }

@@ -21,7 +21,6 @@ namespace solder.Models
         {
             Type type = typeof(T);
             
-            
             switch(type.Name)
             {
                 case "SolderType":
@@ -77,17 +76,15 @@ namespace solder.Models
             {
                 case "SolderType":
                     _db.SolderTypes.Add(item as SolderType);
-                    _db.SaveChanges();
                     break;
                 case "Solder":
                     _db.Solders.Add(item as Solder);
-                    _db.SaveChanges();
                     break;
                 default:
                      _db.SolderProducts.Add(item as SolderProduct);
-                    _db.SaveChanges();
                     break;
             }
+            _db.SaveChanges();
             
         }
 

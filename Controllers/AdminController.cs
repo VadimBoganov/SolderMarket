@@ -1,6 +1,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,10 +13,12 @@ namespace solder.Controllers
     public class AdminController : Controller
     {
         private IRepository _repository;
+        private IHostingEnvironment _env;
 
-        public AdminController(IRepository r)
+        public AdminController(IRepository r, IHostingEnvironment e)
         {
             _repository = r;
+            _env = e;
         }
 
         public IActionResult Index(SortState sortOrder = SortState.NameAsc)
@@ -88,13 +91,13 @@ namespace solder.Controllers
 
                 if(svm.Avatar != null)
                 {
-                    byte[] imageData = null;
+                    solder.PictureName = svm.Avatar.FileName;
 
-                    using(var binaryReader = new BinaryReader(svm.Avatar.OpenReadStream()))
+                    string path = "/images/solders/" + svm.Avatar.FileName;    
+                    using (var fileStream = new FileStream(_env.WebRootPath + path, FileMode.Create))
                     {
-                        imageData = binaryReader.ReadBytes((int)svm.Avatar.Length);
-                    }
-                    solder.Picture = imageData;
+                        await svm.Avatar.CopyToAsync(fileStream);
+                    }                
                 }
                 await _repository.AddAsync<Solder>(solder);
                 
@@ -209,13 +212,13 @@ namespace solder.Controllers
             
             if(svm.Avatar != null)
             {
-                byte[] imageData = null;
-
-                using(var binaryReader = new BinaryReader(svm.Avatar.OpenReadStream()))
+                string path = "/solders/" + svm.Avatar.FileName;    
+                using (var fileStream = new FileStream(_env.WebRootPath + path, FileMode.Create))
                 {
-                    imageData = binaryReader.ReadBytes((int)svm.Avatar.Length);
-                }
-                solder.Picture = imageData;
+                    await svm.Avatar.CopyToAsync(fileStream);
+                }      
+
+                solder.PictureName = svm.Avatar.FileName;
             }
 
             await _repository.UpdateAsync<Solder>(solder);
@@ -306,6 +309,14 @@ namespace solder.Controllers
             
             if(solder == null)
                 return BadRequest();
+
+            var fullPath = _env.WebRootPath + "/images/solders/" + solder.PictureName;
+
+            if (System.IO.File.Exists(fullPath))
+            {
+                System.IO.File.Delete(fullPath);
+                ViewBag.deleteSuccess = "true";
+            }
 
             await _repository.DeleteAsync<Solder>(solder);
             return RedirectToAction("Index");

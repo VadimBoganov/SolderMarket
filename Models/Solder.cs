@@ -17,7 +17,7 @@ namespace solder.Models
         public int ProductId {get;set;}
         public SolderProduct SolderProduct {get;set;}
         public int Price {get;set;}
-        public byte[] Picture {get;set;}
+        public string PictureName {get;set;}
     }
 
     public class SolderProduct : SolderEntity

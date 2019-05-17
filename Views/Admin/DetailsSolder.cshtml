@@ -14,10 +14,10 @@
         <dt>Price</dt>
         <dd>@Model.Price</dd>
        
-        @if (@Model.Picture != null)
+        @if (@Model.PictureName != null)
         {
             <dt>Image</dt>
-            <a href="#" id="pop"><img style='width:80px; height:60px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(@Model.Picture))" /></a>
+            <a href="#" id="pop"><img style='width:80px; height:60px;' src="~/images/solders/@Model.PictureName" /></a>
         }
     </dl>
 </div>
@@ -30,9 +30,9 @@
         <h4 class="modal-title" id="myModalLabel">Image preview</h4>
       </div>
       <div class="modal-body">
-        @if (@Model.Picture != null)
+        @if (@Model.PictureName != null)
         {
-            <img src="data:image/jpeg;base64,@(Convert.ToBase64String(@Model.Picture))" id="imagepreview" style="width: 565px; height: 565px;" >
+            <img src="~/images/solders/@Model.PictureName" id="imagepreview" style="width: 565px; height: 565px;" >
         }
       </div>
       <div class="modal-footer">

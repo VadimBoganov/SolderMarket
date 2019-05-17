@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 using solder.ViewModels;
+using Microsoft.AspNetCore.Hosting;
 
 namespace solder.Tests
 {
@@ -16,8 +17,10 @@ namespace solder.Tests
         public void Index()
         {
             var mock = new Mock<IRepository>();
+            var mockEnvironment = new Mock<IHostingEnvironment>();
             mock.Setup(repo => repo.GetAll<Solder>()).Returns(GetTestSolders());
-            var controller = new AdminController(mock.Object);
+            //mockEnvironment.Setup(m => m.EnvironmentName).Returns("Hosting:UnitTestEnvironment");
+            var controller = new AdminController(mock.Object, mockEnvironment.Object);
 
             var result = controller.Index();
 
@@ -31,8 +34,9 @@ namespace solder.Tests
         {
             int testId = 1;
             var mock = new Mock<IRepository>();
+            var mockEnvironment = new Mock<IHostingEnvironment>();
             mock.Setup(r => r.GetAsync<Solder>(testId)).ReturnsAsync(GetTestSolders().FirstOrDefault(s => s.Id == testId));
-            var controller = new AdminController(mock.Object);
+            var controller = new AdminController(mock.Object, mockEnvironment.Object);
 
             var res = await controller.DetailsSolder(testId);
 
@@ -46,7 +50,8 @@ namespace solder.Tests
         public async Task CreateModelInvalidState()
         {
             var mock = new Mock<IRepository>();
-            var controller = new AdminController(mock.Object);
+            var mockEnvironment = new Mock<IHostingEnvironment>();
+            var controller = new AdminController(mock.Object, mockEnvironment.Object);
             controller.ModelState.AddModelError("Name", "Required");
             SolderViewModel sol = new SolderViewModel();
 
@@ -60,7 +65,8 @@ namespace solder.Tests
         public async Task CreateCheckRedirect()
         {
             var mock = new Mock<IRepository>();
-            var controller = new AdminController(mock.Object);
+            var mockEnvironment = new Mock<IHostingEnvironment>();
+            var controller = new AdminController(mock.Object, mockEnvironment.Object);
             var prod = new SolderViewModel()
             {
                 Name = "dsd",
@@ -78,7 +84,8 @@ namespace solder.Tests
         public async Task DeleteNotFound()
         {
             var mock = new Mock<IRepository>();
-            var controller = new AdminController(mock.Object);
+            var mockEnvironment = new Mock<IHostingEnvironment>();
+            var controller = new AdminController(mock.Object, mockEnvironment.Object);
 
             var result = await controller.DeleteSolder(null);
 
@@ -90,8 +97,9 @@ namespace solder.Tests
         {
             int testId = 1;
             var mock = new Mock<IRepository>();
+            var mockEnvironment = new Mock<IHostingEnvironment>();
             mock.Setup(r => r.GetAsync<Solder>(testId)).ReturnsAsync(GetTestSolders().FirstOrDefault(s => s.Id == testId));
-            var controller = new AdminController(mock.Object);
+            var controller = new AdminController(mock.Object, mockEnvironment.Object);
 
             var result = await controller.DeleteSolder(testId);
 

@@ -3,9 +3,22 @@
     ViewBag.Title = "Solders Store";
 }
 
+@using solder.HtmlHelpers
+
+
 <div id="panel" class="container">
-    <div id="leftmenu" class="col-lg-2">
-        
+    <div class="col-lg-2">
+        <ul class="nav nav-stacked">
+            @foreach (var type in Model.SolderTypes)
+            {
+                <li><a href="#">@type.Name</a></li>
+            }
+        </ul>
+    </div>
+    <div id="solders" class="col-lg-10 col-lg-offset-2">
+        <table class="table">
+            @(Html.FormatListSolders(Model.Solders as List<Solder>, 3))
+        </table>
     </div>
 </div>
 
