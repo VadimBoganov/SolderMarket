@@ -25,7 +25,7 @@
                 <div class="col-lg-1 col-lg-offset-2">img logo</div>
                 <div class="col-lg-2">
                     <form class="form-inline md-form mr-auto mb-4">
-                        @Html.TextBox("name", Model.Name, htmlAttributes: new { @class = "form-control" })
+                        @Html.TextBox("solderName", Model.Name, htmlAttributes: new { @class = "form-control" })
                         <button class="btn aqua-gradient btn-rounded btn-sm my-0" type="submit">Search</button>
                     </form>
                 </div>
@@ -51,7 +51,8 @@
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
                 crossorigin="anonymous"
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-        </script>
+        </script>        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
         <script src="~/js/control.js" asp-append-version="true"></script>
     </body>
 </html>

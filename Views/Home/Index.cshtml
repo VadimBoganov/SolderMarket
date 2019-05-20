@@ -7,18 +7,48 @@
 
 
 <div id="panel" class="container">
-    <div class="col-lg-2">
-        <ul class="nav nav-stacked">
+    <div class="row">
+        <div id="filtersConteiner" class="col-lg-2">
+            <!-- <button class="btn active" onclick="filterSelection('all')">Все</button> -->
             @foreach (var type in Model.SolderTypes)
             {
-                <li><a href="#">@type.Name</a></li>
+                <input type="checkbox" name="types" value="@type.Name" id="@type.Name"><label for="@type.Name">@type.Name</label><br>
+                <!-- <button class="btn" onclick="filterSelection('@type.Name')"> @type.Name</button> -->
             }
-        </ul>
-    </div>
-    <div id="solders" class="col-lg-10 col-lg-offset-2">
-        <table class="table">
-            @(Html.FormatListSolders(Model.Solders as List<Solder>, 3))
-        </table>
+            <hr>
+            @foreach (var product in Model.SolderProducts)
+            {
+                <input type="checkbox" name="products" value="@product.Name" id="@product.Name"><label for="@product.Name">@product.Name</label><br>
+                <!-- <button class="btn" onclick="filterSelection('@product.Name')"> @product.Name</button> -->
+            }
+        </div>
+        <!-- <div class="col-lg-2">
+            <ul class="nav nav-stacked">
+                    @foreach (var type in Model.SolderTypes)
+                    {
+                        <li>@Html.ActionLink(type.Name as string, "Index", "", new { typeName= type.Name as string})</li>
+                    }
+                    <hr>
+                    @foreach (var product in Model.SolderProducts)
+                    {
+                        <li>@Html.ActionLink(product.Name as string, "Index", "", new { productName= product.Name as string})</li>
+                    }
+                </ul> 
+        </div> -->
+         <!--<div class="col-lg-2" data-toggle="buttons">
+                @foreach (var type in Model.SolderTypes)
+                {
+                    <label class="btn btn-default">
+                        @Html.CheckBox(@type.Name as string, false, new { typeName = type.Name as string}) @type.Name
+                    </label>
+                }     
+                
+            </div>-->
+        <div id="solders" class="col-lg-10">
+            <table class="table">
+                @(Html.FormatListSolders(Model.Solders as IEnumerable<Solder>, 3))
+            </table>
+        </div>
     </div>
 </div>
 

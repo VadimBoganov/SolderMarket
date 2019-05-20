@@ -18,7 +18,7 @@ namespace solder.Tests
             mock.Setup(repo => repo.GetAll<Solder>()).Returns(GetTestSolders());
             var controller = new HomeController(mock.Object);
 
-            var result = controller.Index("1");
+            var result = controller.Index("1", "", "");
 
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<SolderListViewModel>(viewResult.Model);

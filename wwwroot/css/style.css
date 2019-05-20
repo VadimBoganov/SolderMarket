@@ -34,9 +34,11 @@ body{
     font-size: 14px;
 }
 
-.place {
-    position: relative;
-    height: 180px;
-    width: 180px;
+.btn.active {
+    background-color: #666;
+    color: white;
 }
+
+
+
 

@@ -14,17 +14,26 @@ namespace solder.Controllers
             _repository = repo;
         }
 
-        public IActionResult Index(string name)
+        public IActionResult Index(string solderName, string typeName, string productName)
         {
-            if(string.IsNullOrEmpty(name))
-                name = string.Empty;
+            if(solderName == null)
+                solderName = string.Empty;
 
+            if(typeName == null)
+                typeName = string.Empty;    
+
+            if(productName == null)
+                productName = string.Empty;        
+                
             SolderListViewModel slvm = new SolderListViewModel
             {
-                Solders = _repository.GetAll<Solder>().Where(s => s.Name.Contains(name)).ToList(),
+                Solders = _repository.GetAll<Solder>()
+                    .Where(s =>s.Name.Contains(solderName))
+                    .Where(s => s.SolderType.Name.Contains(typeName))
+                    .Where(s => s.SolderProduct.Name.Contains(productName)),
                 SolderTypes = _repository.GetAll<SolderType>(),
                 SolderProducts = _repository.GetAll<SolderProduct>(),
-                Name = name
+                Name = solderName
             };
 
             return View(slvm);
