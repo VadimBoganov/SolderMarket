@@ -212,13 +212,13 @@ namespace solder.Controllers
             
             if(svm.Avatar != null)
             {
-                string path = "/solders/" + svm.Avatar.FileName;    
+                solder.PictureName = svm.Avatar.FileName;
+
+                string path = "/images/solders/" + svm.Avatar.FileName;    
                 using (var fileStream = new FileStream(_env.WebRootPath + path, FileMode.Create))
                 {
                     await svm.Avatar.CopyToAsync(fileStream);
-                }      
-
-                solder.PictureName = svm.Avatar.FileName;
+                }                
             }
 
             await _repository.UpdateAsync<Solder>(solder);

@@ -23,12 +23,18 @@
             @foreach(var solder in Model.Solders)
             {
                 <div class='solder @solder.SolderType.Name @solder.SolderProduct.Name'>
-                    @solder.Name
-                    @using (Html.BeginForm("Add", "Cart"))
+                    <p>@solder.Name</p>
+                    @if(solder.PictureName != null)
                     {
-                        <input id="solderId" name="solderId" type="hidden" value="@solder.Id" />
-                        <input type="submit" class="btn btn-success" value="Добавить в корзину" />
+                        <img src="images/solders/@solder.PictureName"/>                        
                     }
+                    <div class="from-bottom">
+                        @using (Html.BeginForm("Add", "Cart"))
+                        {
+                            <input id="solderId" name="solderId" type="hidden" value="@solder.Id" />
+                            <input type="submit" class="btn btn-success" value="Добавить в корзину" />
+                        }
+                    </div>
                 </div>
             }
         </div>

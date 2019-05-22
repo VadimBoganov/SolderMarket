@@ -42,8 +42,25 @@ body{
 #solders{
     display: inline-flex;
     flex-wrap: wrap;
+    position: relative;
+    padding: 10px;
 }
 
-.solder{padding-right: 10px;}
+#solders img
+{
+    width: 300px;
+}
 
+.solder{
+    border: 2px double whitesmoke;
+    margin: 2px;
+}
 
+.solder p{
+    text-align: right;
+    font-size: 20px;
+}
+
+.from-bottom{
+    padding-bottom: 10px;
+}
