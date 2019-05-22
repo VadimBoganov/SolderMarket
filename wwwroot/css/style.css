@@ -39,6 +39,11 @@ body{
     color: white;
 }
 
+#solders{
+    display: inline-flex;
+    flex-wrap: wrap;
+}
 
+.solder{padding-right: 10px;}
 
 

@@ -29,7 +29,11 @@ namespace solder
 
             services.AddScoped<IRepository, SolderRepository>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);  
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);  
 
             services.AddKendo(); 
         }
@@ -41,11 +45,9 @@ namespace solder
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+            app.UseSession();
             app.UseStaticFiles();
-
             app.UseMvcWithDefaultRoute();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

@@ -107,7 +107,7 @@ namespace solder.Tests
             Assert.Null(redirectResult.ControllerName);
             Assert.Equal("Index", redirectResult.ActionName);
         }
-        private List<Solder> GetTestSolders()
+        public List<Solder> GetTestSolders()
         {
             var solders = new List<Solder>
             {

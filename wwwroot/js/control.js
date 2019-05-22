@@ -8,6 +8,7 @@ Array.prototype.forEach.call(checkboxes, function (el) {
 });
 
 getChecked('types');
+getChecked('products');
 
 function toggleCheckbox(e) {
     getChecked(e.target.name);
