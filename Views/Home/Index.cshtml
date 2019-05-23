@@ -2,16 +2,42 @@
     Layout = "_MainLayout.cshtml";
     ViewBag.Title = "Solders Store";
 }
-<div id="top" class="container-fluid">
+
+@using solder.HtmlHelpers
+
+
+<div id="panel" class="container">
     <div class="row">
-        <div class="col-lg-1 col-lg-offset-2">sdsdad</div>
-        <div class="col-lg-1 col-lg-offset-1">a123</div>
-    </div>
-</div>
-<div id="header" class="conteiner-fluid">
-    <div class="row">
-        <div class="col-lg-1 col-lg-offset-2">122ss3</div>
-        <div class="col-lg-1 col-lg-offset-1">a1623</div>
+        <div id="filtersConteiner" class="col-lg-2">
+            @foreach (var type in Model.SolderTypes)
+            {
+                <input type="checkbox" name="types" value="@type.Name" id="@type.Name"><label for="@type.Name">@type.Name</label><br>
+            }
+            <hr>
+            @foreach (var product in Model.SolderProducts)
+            {
+                <input type="checkbox" name="products" value="@product.Name" id="@product.Name"><label for="@product.Name">@product.Name</label><br>
+            }
+        </div>
+        <div id="solders" class="col-lg-10">
+            @foreach(var solder in Model.Solders)
+            {
+                <div class='solder @solder.SolderType.Name @solder.SolderProduct.Name'>
+                    <p>@solder.Name</p>
+                    @if(solder.PictureName != null)
+                    {
+                        <img src="images/solders/@solder.PictureName"/>                        
+                    }
+                    <div class="from-bottom">
+                        @using (Html.BeginForm("Add", "Cart"))
+                        {
+                            <input id="solderId" name="solderId" type="hidden" value="@solder.Id" />
+                            <input type="submit" class="btn btn-success" value="Добавить в корзину" />
+                        }
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 </div>
 

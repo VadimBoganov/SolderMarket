@@ -29,7 +29,13 @@ namespace solder
 
             services.AddScoped<IRepository, SolderRepository>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);    
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);  
+
+            services.AddKendo(); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,17 +45,17 @@ namespace solder
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+            app.UseSession();
             app.UseStaticFiles();
-
             app.UseMvcWithDefaultRoute();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name:"Admin",
                     template:"{controller=Admin}/{action=Index}/{id?}");
-            });            
+            });       
+
+            app.UseKendo(env);     
         }
     }
 }

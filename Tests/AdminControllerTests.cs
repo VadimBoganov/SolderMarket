@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 using solder.ViewModels;
+using Microsoft.AspNetCore.Hosting;
 
 namespace solder.Tests
 {
@@ -16,8 +17,10 @@ namespace solder.Tests
         public void Index()
         {
             var mock = new Mock<IRepository>();
-            mock.Setup(repo => repo.GetAll()).Returns(GetTestSolders());
-            var controller = new AdminController(mock.Object);
+            var mockEnvironment = new Mock<IHostingEnvironment>();
+            mock.Setup(repo => repo.GetAll<Solder>()).Returns(GetTestSolders());
+            //mockEnvironment.Setup(m => m.EnvironmentName).Returns("Hosting:UnitTestEnvironment");
+            var controller = new AdminController(mock.Object, mockEnvironment.Object);
 
             var result = controller.Index();
 
@@ -31,10 +34,11 @@ namespace solder.Tests
         {
             int testId = 1;
             var mock = new Mock<IRepository>();
-            mock.Setup(r => r.GetAsync(testId)).ReturnsAsync(GetTestSolders().FirstOrDefault(s => s.Id == testId));
-            var controller = new AdminController(mock.Object);
+            var mockEnvironment = new Mock<IHostingEnvironment>();
+            mock.Setup(r => r.GetAsync<Solder>(testId)).ReturnsAsync(GetTestSolders().FirstOrDefault(s => s.Id == testId));
+            var controller = new AdminController(mock.Object, mockEnvironment.Object);
 
-            var res = await controller.Details(testId);
+            var res = await controller.DetailsSolder(testId);
 
             var viewResult = Assert.IsType<ViewResult>(res);
             var model = Assert.IsType<Solder>(viewResult.ViewData.Model);
@@ -46,11 +50,12 @@ namespace solder.Tests
         public async Task CreateModelInvalidState()
         {
             var mock = new Mock<IRepository>();
-            var controller = new AdminController(mock.Object);
+            var mockEnvironment = new Mock<IHostingEnvironment>();
+            var controller = new AdminController(mock.Object, mockEnvironment.Object);
             controller.ModelState.AddModelError("Name", "Required");
             SolderViewModel sol = new SolderViewModel();
 
-            var res = await controller.Create(sol);
+            var res = await controller.CreateSolder(sol);
             
             var viewRes = Assert.IsType<ViewResult>(res);
             Assert.Equal(sol, viewRes?.Model);
@@ -60,14 +65,15 @@ namespace solder.Tests
         public async Task CreateCheckRedirect()
         {
             var mock = new Mock<IRepository>();
-            var controller = new AdminController(mock.Object);
+            var mockEnvironment = new Mock<IHostingEnvironment>();
+            var controller = new AdminController(mock.Object, mockEnvironment.Object);
             var prod = new SolderViewModel()
             {
                 Name = "dsd",
-                Type = SolderType.Babbit,
+                SolderTypeId = 1,
                 Price = 213
             };
-            var res = await controller.Create(prod);
+            var res = await controller.CreateSolder(prod);
 
             var redirectResult = Assert.IsType<RedirectToActionResult>(res);
             Assert.Null(redirectResult.ControllerName);
@@ -78,9 +84,10 @@ namespace solder.Tests
         public async Task DeleteNotFound()
         {
             var mock = new Mock<IRepository>();
-            var controller = new AdminController(mock.Object);
+            var mockEnvironment = new Mock<IHostingEnvironment>();
+            var controller = new AdminController(mock.Object, mockEnvironment.Object);
 
-            var result = await controller.Delete(null);
+            var result = await controller.DeleteSolder(null);
 
             Assert.IsType<NotFoundResult>(result);
         }
@@ -90,21 +97,22 @@ namespace solder.Tests
         {
             int testId = 1;
             var mock = new Mock<IRepository>();
-            mock.Setup(r => r.GetAsync(testId)).ReturnsAsync(GetTestSolders().FirstOrDefault(s => s.Id == testId));
-            var controller = new AdminController(mock.Object);
+            var mockEnvironment = new Mock<IHostingEnvironment>();
+            mock.Setup(r => r.GetAsync<Solder>(testId)).ReturnsAsync(GetTestSolders().FirstOrDefault(s => s.Id == testId));
+            var controller = new AdminController(mock.Object, mockEnvironment.Object);
 
-            var result = await controller.Delete(testId);
+            var result = await controller.DeleteSolder(testId);
 
             var redirectResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.Null(redirectResult.ControllerName);
             Assert.Equal("Index", redirectResult.ActionName);
         }
-        private List<Solder> GetTestSolders()
+        public List<Solder> GetTestSolders()
         {
             var solders = new List<Solder>
             {
-                new Solder {Id = 1, Name = "123", Type = SolderType.Babbit, Price = 123},
-                new Solder {Id = 2, Name = "32", Type = SolderType.SpecialAndFusible, Price = 122}
+                new Solder {Id = 1, Name = "123", SolderType = new SolderType{Id = 1, Name = "Babbit"} , Price = 123},
+                new Solder {Id = 2, Name = "32", SolderType = new SolderType{Id = 1, Name = "Babbit"}, Price = 122}
             };
             return solders;
         }

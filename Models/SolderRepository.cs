@@ -17,52 +17,127 @@ namespace solder.Models
         {
             _db = ctx;
         }
-        public IEnumerable<Solder> GetAll()
+        public IEnumerable<T> GetAll<T>()
         {
-            return _db.Solders.ToList().OrderBy(s => s.Id);
+            Type type = typeof(T);
+            
+            switch(type.Name)
+            {
+                case "SolderType":
+                    return _db.SolderTypes.ToList().OrderBy(s => s.Id) as IEnumerable<T>;
+                case "Solder":
+                    return _db.Solders.ToList().OrderBy(s => s.Id) as IEnumerable<T>;    
+                default:
+                    return _db.SolderProducts.ToList().OrderBy(s => s.Id) as IEnumerable<T>;
+
+            }
         }
 
-        public Solder Get(int? id)
+        public T Get<T>(int? id) where T : class
         {
-            return _db.Solders.FirstOrDefault(s => s.Id == id);
+            Type type = typeof(T);
+
+            switch(type.Name)
+            {
+                case "SolderType":
+                    return _db.SolderTypes.FirstOrDefault(s => s.Id == id) as T;
+                case "Solder":
+                    return _db.Solders.FirstOrDefault(s => s.Id == id) as T;
+                default:
+                    return _db.SolderProducts.FirstOrDefault(s => s.Id == id) as T;
+
+            }
         }
 
-        public async Task<Solder> GetAsync(int? id)
+        public async Task<T> GetAsync<T>(int? id) where T : class
         {
-            Solder solder = await _db.Solders.FirstOrDefaultAsync(s => s.Id == id);    
-            return solder;
+            Type type = typeof(T);
+
+            switch(type.Name)
+            {
+                case "SolderType":
+                    return await _db.SolderTypes.FirstOrDefaultAsync(s => s.Id == id) as T;
+                case "Solder":
+                    var solder = await _db.Solders.FirstOrDefaultAsync(s => s.Id == id) as Solder;
+                    solder.SolderType = await _db.SolderTypes.FirstOrDefaultAsync(st => st.Id == solder.SolderTypeId);
+                    solder.SolderProduct = await _db.SolderProducts.FirstOrDefaultAsync(p => p.Id == solder.ProductId);
+                    return solder as T; 
+                default:
+                    return await _db.SolderProducts.FirstOrDefaultAsync(s => s.Id == id) as T;
+
+            }
         }
         
-        public void Add(Solder solder)    
+        public void Add<T>(T item)    
         {
-            _db.Solders.Add(solder);
+            Type type = typeof(T);
+
+            switch(type.Name)
+            {
+                case "SolderType":
+                    _db.SolderTypes.Add(item as SolderType);
+                    break;
+                case "Solder":
+                    _db.Solders.Add(item as Solder);
+                    break;
+                default:
+                     _db.SolderProducts.Add(item as SolderProduct);
+                    break;
+            }
+            _db.SaveChanges();
+            
+        }
+
+        public async Task AddAsync<T>(T item)
+        {
+            await Task.Run(() => Add<T>(item));
+        }
+
+        public void Update<T>(T item)
+        {
+            Type type = typeof(T);
+
+            switch(type.Name)
+            {
+                case "SolderType":
+                    _db.SolderTypes.Update(item as SolderType);
+                    break;
+                case "Solder":
+                    _db.Solders.Update(item as Solder);
+                    break;
+                 default:
+                    _db.SolderProducts.Update(item as SolderProduct);
+                    break;
+            }
             _db.SaveChanges();
         }
 
-        public async Task AddAsync(Solder solder)
+        public async Task UpdateAsync<T>(T item)
         {
-            await Task.Run(() => Add(solder));
-        }
-
-        public void Update(Solder solder)
-        {
-            _db.Solders.Update(solder);
-            _db.SaveChanges();
-        }
-
-        public async Task UpdateAsync(Solder solder)
-        {
-            await Task.Run(() => Update(solder));
+            await Task.Run(() => Update<T>(item));
         }
         
-        public async Task DeleteAsync(Solder solder)
+        public async Task DeleteAsync<T>(T item)
         {
-            await Task.Run(() => Delete(solder));
+            await Task.Run(() => Delete<T>(item));
         }
 
-        public void Delete(Solder solder)
+        public void Delete<T>(T item)
         {
-            _db.Solders.Remove(solder);
+            Type type = typeof(T);
+
+            switch(type.Name)
+            {
+                case "SolderType":
+                    _db.SolderTypes.Remove(item as SolderType);
+                    break;
+                case "Solder": 
+                    _db.Solders.Remove(item as Solder);
+                    break;
+                default:
+                    _db.SolderProducts.Remove(item as SolderProduct);
+                    break;    
+            }
             _db.SaveChanges();
         }
     }

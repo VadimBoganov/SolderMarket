@@ -1,0 +1,14 @@
+@model solder.Models.SolderType
+@{
+    ViewBag.Title = "Edit SolderType";
+}
+
+<form asp-action="EditSolderType" asp-controller="admin" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label">Name</label>
+        <input type="text" asp-for="Name" class="form-control" />
+    </div>
+     <div class="form-group">
+        <input type="submit" value="Send" class="btn btn-default" />
+    </div>
+</form>

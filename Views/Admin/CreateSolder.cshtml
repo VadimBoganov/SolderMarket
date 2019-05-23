@@ -1,15 +1,19 @@
-@model solder.Models.Solder
+@model solder.ViewModels.SolderViewModel
 @{
     ViewBag.Title = "Create";
 }
-<form asp-action="create" asp-controller="admin" method="post" enctype="multipart/form-data">
+<form asp-action="CreateSolder" asp-controller="admin" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label asp-for="Name" class="control-label">Name</label>
         <input type="text" asp-for="Name" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="Type" class="control-label">Type</label>
-        <select class="form-control" asp-for="Type" asp-items="Html.GetEnumSelectList<SolderType>()"></select>
+        <label asp-for="SolderTypeId" class="control-label">SolderType</label>
+        <select class="form-control" asp-for="SolderTypeId" asp-items="ViewBag.SolderType"></select>
+    </div>
+     <div class="form-group">
+        <label asp-for="ProductId" class="control-label">Product</label>
+        <select class="form-control" asp-for="ProductId" asp-items="ViewBag.Product"></select>
     </div>
     <div class="form-group">
         <label asp-for="Price" class="control-label">Price</label>

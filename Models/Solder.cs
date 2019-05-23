@@ -1,16 +1,39 @@
 namespace solder.Models
 {
-    public class Solder : Product
+    public abstract class SolderEntity
     {
-        public int Id {get;set;}
-        public byte[] Picture {get;set;}
+        public int Id {get; set;}
+        public string Name {get;set;}
+    }
+    public class SolderType : SolderEntity
+    {
+
     }
 
-    public enum SolderType
+    public class Solder : SolderEntity
     {
-        LeadTin, //Оловянно-свинцовые
-        SpecialAndFusible, //Специальные и легкоплавкие
-        Babbit
+        public int SolderTypeId {get;set;}
+        public SolderType SolderType {get;set;}
+        public int ProductId {get;set;}
+        public SolderProduct SolderProduct {get;set;}
+        public int Price {get;set;}
+        public string PictureName {get;set;}
     }
 
+    public class SolderProduct : SolderEntity
+    {
+
+    }
+
+    public enum SortState
+    {
+        NameAsc,
+        NameDesc,
+        SolderTypeAsc,
+        SolderTypeDesc,
+        SolderProductAsc,
+        SolderProductDesc,
+        PriceAsc,
+        PriceDesc
+    }
 }

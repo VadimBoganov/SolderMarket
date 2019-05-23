@@ -7,15 +7,15 @@ namespace solder.Models
 {
     public interface IRepository
     {
-        IEnumerable<Solder> GetAll();
-        Solder Get(int? id);
-        Task<Solder> GetAsync(int? id);
-        void Add(Solder solder);
-        Task AddAsync(Solder solder);
-        void Update(Solder solder);
-        Task UpdateAsync(Solder solder);
-        void Delete(Solder solder);
-        Task DeleteAsync(Solder solder);
+        IEnumerable<T> GetAll<T>();
+        T Get<T>(int? id) where T : class;
+        Task<T> GetAsync<T>(int? id) where T : class;
+        void Add<T>(T item);
+        Task AddAsync<T>(T itme);
+        void Update<T>(T item);
+        Task UpdateAsync<T>(T item);
+        void Delete<T>(T solder);
+        Task DeleteAsync<T>(T solder);
 
     }
 }

@@ -12,7 +12,12 @@
  
         <dt>Type</dt>
         <dd>
-            @Html.DisplayFor(model => model.Type)
+            @Html.DisplayFor(model => model.SolderType.Name)
+        </dd>
+
+        <dt>Product</dt>
+        <dd>
+            @Html.DisplayFor(model => model.SolderProduct.Name)
         </dd>
  
         <dt>Price</dt>
@@ -20,15 +25,15 @@
             @Html.DisplayFor(model => model.Price)
         </dd>
 
-        @if (@Model.Picture != null)
+        @if (@Model.PictureName != null)
         {
             <dt>Image</dt>
-            <img style='width:80px; height:60px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(@Model.Picture))" />
+            <img style='width:80px; height:60px;' src="~/images/solders/@Model.PictureName" />
         }
     </dl>
  
     <div>
-        <form asp-controller="admin" asp-action="Delete" method="post">
+        <form asp-controller="admin" asp-action="DeleteSolder" method="post">
             <div class="form-group">
                 <input type="submit" class="btn btn-default" value="Delete" />
             </div>

@@ -1,0 +1,55 @@
+@model solder.Models.Cart
+
+@{
+    ViewBag.Title = "Cart";
+}
+
+<h2>Ваша корзина</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Припой</th>
+            <th>Цена</th>
+            <th class="text-center">Кол-во</th>
+            <th class="text-right">Общая цена</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var line in Model.Lines)
+        {
+            <tr>
+                <td class="text-left">@line.Solder.Name</td>
+                <td class="text-left">@line.Solder.Price.ToString("# руб")</td>
+                <td class="text-center">@line.Quantity
+                    @using (Html.BeginForm("RemoveOne", "Cart"))
+                    {
+                        <input id="solderId" name="solderId" type="hidden" value="@line.Solder.Id" />
+                        <input type="submit" class="btn btn-primary" value="Удалить" />
+                    }
+                    @using (Html.BeginForm("Remove", "Cart"))
+                    {
+                        <input id="solderId" name="solderId" type="hidden" value="@line.Solder.Id" />
+                        <input type="submit" class="btn btn-primary" value="Удалить позицию" />
+                    }
+                </td>
+                <td class="text-right">
+                    @((line.Quantity * line.Solder.Price).ToString("# руб"))
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" class="text-right">Итого:</td>
+            <td class="text-right">
+                @Model.CalcTotalPrice().ToString("# руб")
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+<form asp-action="Index" asp-controller="home" method="post" enctype="multipart/form-data">
+    <div class="form-group text-center">
+        <input class="btn btn-primary" type="submit" value="Вернуться" class="btn btn-default" />
+    </div>
+</form>
