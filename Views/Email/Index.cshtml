@@ -1,0 +1,27 @@
+@model solder.Models.Email
+
+@{
+    ViewBag.Title = "Email";
+} 
+
+@using (Html.BeginForm("SendMessage", "Email"))
+{
+    <div class="form-group">
+        <label asp-for="FromEmail" class="control-label">FromEmail</label>
+        <input type="text" asp-for="FromEmail" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Subject" class="control-label">Subject</label>
+        <input type="text" asp-for="Subject" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Message" class="control-label">Message</label>
+        <textarea class="form-control" rows="5" asp-for="Message"></textarea>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" class="btn btn-primary" value="Отправить" />
+    </div>
+}                    
